@@ -28,7 +28,7 @@ jobs:
     #     -Dsonar.host.url=https://your-sonarqube-url
 
     - name: Run CodeQL Analysis test
-      uses: github/codeql-action/init@v2
+      uses: github/codeql-action/init@v3
       with:
         languages: javascript
         queries: security-extended
