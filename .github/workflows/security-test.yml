@@ -1,0 +1,34 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  security_tests:
+    name: Security Testing
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # - name: Run OWASP ZAP Scan
+    #   run: |
+    #     docker run -v $(pwd):/zap/wrk:rw -t owasp/zap2docker-stable zap-baseline.py -t http://yourapp-url -g gen.conf -r testreport.html
+
+    # - name: Run SonarQube Scan
+    #   env:
+    #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    #   run: |
+    #     sonar-scanner \
+    #     -Dsonar.projectKey=your_project_key \
+    #     -Dsonar.sources=. \
+    #     -Dsonar.host.url=https://your-sonarqube-url
+
+    - name: Run CodeQL Analysis
+      uses: github/codeql-action/init@v2
+      with:
+        languages: javascript
+        queries: security-extended
