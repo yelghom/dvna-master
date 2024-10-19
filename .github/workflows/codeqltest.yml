@@ -29,7 +29,7 @@ jobs:
     # Consider using larger runners or machines with greater resources for possible analysis time improvements.
     runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
     env:
-      SNYK_TOKEN: ${{secrets.SNYK_TOKEN}}
+      SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
     permissions:
       # required for all workflows
       security-events: write
@@ -60,7 +60,7 @@ jobs:
       uses: actions/checkout@v4
     # - run: npm install
     - run: npm i -g snyk
-    - run: snyk auth ${{secrets.SNYK_TOKEN}}
+    - run: snyk auth ${{ secrets.SNYK_TOKEN }}
     - run: snyk monitor
 
     - name: install snyk-to-html
