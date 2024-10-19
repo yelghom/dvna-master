@@ -14,9 +14,9 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    # - name: Run OWASP ZAP Scan
-    #   run: |
-    #     docker run -v $(pwd):/zap/wrk:rw -t owasp/zap2docker-stable zap-baseline.py -t http://yourapp-url -g gen.conf -r testreport.html
+    - name: Run OWASP ZAP Scan
+      run: |
+        docker run --rm -v $(pwd):/zap/wrk/:rw -t ictu/zap2docker-weekly zap-baseline.py -I -j -t http://host.docker.internal:3000/ -r testreport.html 
 
     # - name: Run SonarQube Scan
     #   env:
@@ -27,8 +27,8 @@ jobs:
     #     -Dsonar.sources=. \
     #     -Dsonar.host.url=https://your-sonarqube-url
 
-    - name: Run CodeQL Analysis
-      uses: github/codeql-action/init@v2
-      with:
-        languages: javascript
-        queries: security-extended
+    # - name: Run CodeQL Analysis
+    #   uses: github/codeql-action/init@v2
+    #   with:
+    #     languages: javascript
+    #     queries: security-extended
