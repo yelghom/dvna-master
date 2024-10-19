@@ -91,8 +91,30 @@ jobs:
       with:
         category: "/language:${{matrix.language}}"
 
-    - name: Run OWASP ZAP
+    - name: Set up Docker
       run: |
-        docker run --rm -v $(pwd):/zap/wrk/:rw -t ictu/zap2docker-weekly zap-baseline.py -I -j -t https://dvna.azurewebsites.net/ -r testreport.html
-      env:
-        ZAP_API_KEY: ${{ secrets.ZAP_API_KEY }}
+        docker pull ictu/zap2docker-weekly
+        docker pull orchest/orchestron
+
+    - name: Start Orchestron
+      run: |
+        docker run -d -p 8080:8080 orchest/orchestron
+
+    - name: Wait for Orchestron to start
+      run: |
+        sleep 30 # Wait for Orchestron to be fully up and running
+
+    - name: Start ZAP Scan
+      run: |
+        docker run -t ictu/zap2docker-weekly zap-baseline.py -I -j -t https://dvna.azurewebsites.net/ -r testreport.html
+        # Replace with your web app URL
+        # You can use Orchestron to configure the scan if needed
+
+    - name: Stop Orchestron
+      run: |
+        docker stop $(docker ps -q --filter ancestor=orchest/orchestron)
+    # - name: Run OWASP ZAP
+    #   run: |
+    #     docker run --rm -v $(pwd):/zap/wrk/:rw -t ictu/zap2docker-weekly zap-baseline.py -I -j -t https://dvna.azurewebsites.net/ -r testreport.html
+    #   env:
+    #     ZAP_API_KEY: ${{ secrets.ZAP_API_KEY }}
