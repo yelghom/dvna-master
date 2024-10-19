@@ -58,6 +58,7 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
+    - run: npm install bcryptjs
     - run: npm install
     - run: npm i -g snyk
     - run: snyk auth ${{ secrets.SNYK_TOKEN }}
