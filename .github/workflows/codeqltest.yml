@@ -56,7 +56,23 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
+    - run: npm install
+    - run: npm i -g snyk
+    - run: snyk auth ${{ secrets.SNYK_TOKEN }}
+    - run: snyk monitor
 
+    - name: install snyk-to-html
+      run: |
+        npm install snyk-to-html -g
+        snyk test --json | snyk-to-html -o result.html
+        mkdir downloads
+        cp -v /home/runner/work/java-goof/java-goof/*.html /home/runner/work/java-goof/java-goof/downloads
+
+    - name: Use the Upload Artifact GitHub Action
+      uses: actions/upload-artifact@v2
+      with:
+        name: results
+        path: downloads
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
@@ -91,28 +107,28 @@ jobs:
       with:
         category: "/language:${{matrix.language}}"
 
-    - name: Set up Docker
-      run: |
-        docker pull ictu/zap2docker-weekly
-        docker pull orchest/orchestron
+    # - name: Set up Docker
+    #   run: |
+    #     docker pull ictu/zap2docker-weekly
+    #     docker pull orchest/orchestron
 
-    - name: Start Orchestron
-      run: |
-        docker run -d -p 8080:8080 orchest/orchestron
+    # - name: Start Orchestron
+    #   run: |
+    #     docker run -d -p 8080:8080 orchest/orchestron
 
-    - name: Wait for Orchestron to start
-      run: |
-        sleep 30 # Wait for Orchestron to be fully up and running
+    # - name: Wait for Orchestron to start
+    #   run: |
+    #     sleep 30 # Wait for Orchestron to be fully up and running
 
-    - name: Start ZAP Scan
-      run: |
-        docker run -t ictu/zap2docker-weekly zap-baseline.py -I -j -t https://dvna.azurewebsites.net/ -r testreport.html
-        # Replace with your web app URL
-        # You can use Orchestron to configure the scan if needed
+    # - name: Start ZAP Scan
+    #   run: |
+    #     docker run -t ictu/zap2docker-weekly zap-baseline.py -I -j -t https://dvna.azurewebsites.net/ -r testreport.html
+    #     # Replace with your web app URL
+    #     # You can use Orchestron to configure the scan if needed
 
-    - name: Stop Orchestron
-      run: |
-        docker stop $(docker ps -q --filter ancestor=orchest/orchestron)
+    # - name: Stop Orchestron
+    #   run: |
+    #     docker stop $(docker ps -q --filter ancestor=orchest/orchestron)
     # - name: Run OWASP ZAP
     #   run: |
     #     docker run --rm -v $(pwd):/zap/wrk/:rw -t ictu/zap2docker-weekly zap-baseline.py -I -j -t https://dvna.azurewebsites.net/ -r testreport.html
