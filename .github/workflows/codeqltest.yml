@@ -90,3 +90,9 @@ jobs:
       uses: github/codeql-action/analyze@v3
       with:
         category: "/language:${{matrix.language}}"
+
+    - name: Run OWASP ZAP
+      run: |
+        docker run --rm -v $(pwd):/zap/wrk/:rw -t ictu/zap2docker-weekly zap-baseline.py -I -j -t https://dvna.azurewebsites.net/ -r testreport.html
+      env:
+        ZAP_API_KEY: ${{ secrets.ZAP_API_KEY }}
