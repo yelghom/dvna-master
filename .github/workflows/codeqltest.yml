@@ -187,13 +187,13 @@ jobs:
           npm install snyk-to-html -g
           snyk test --json | snyk-to-html -o result.html
           mkdir downloads
-          # cp -v /home/runner/work/java-goof/java-goof/*.html /home/runner/work/java-goof/java-goof/downloads
+          cp -v /home/runner/work/dvna-master/dvna-master/*.html /home/runner/work/dvna-master/dvna-master/downloads
       - name: Check for HTML files
         run: |
           echo "Checking for HTML files:"
-          if ls /home/runner/work/dvna-master/dvna-master*.html 1> /dev/null 2>&1; then
+          if ls /home/runner/work/dvna-master/dvna-master/downloads/*.html 1> /dev/null 2>&1; then
             echo "HTML files found:"
-            ls /home/runner/work/dvna-master/dvna-master*.html
+            ls /home/runner/work/dvna-master/dvna-master/downloads/*.html
           else
             echo "No HTML files found in the directory."
             exit 1
