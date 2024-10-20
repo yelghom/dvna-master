@@ -1,26 +1,29 @@
 version: '3'
-
 services:
   app:
-    build: .
+    image: yelghom/dvna:latest  
     ports:
-      - "8000:8000"
+      - "3000:3000"
     environment:
-      POSTGRES_DB: dvna-tp2
-      POSTGRES_USER: ayahfarhat
-      POSTGRES_PASSWORD: Postgres1
-      DATABASE_URL: postgres://ayahfarhat:Postgres1@db:5432/dvna-tp2
+      POSTGRES_USER: ayahfarhat 
+      POSTGRES_PASSWORD: Postgres1 
+      POSTGRES_DB: dvna-tp2  
+      DATABASE_URL: postgres://ayahfarhat:Postgres1@dvna-tp2.postgres.database.azure.com:5432/mydb
     depends_on:
       - db
+    restart: always
 
   db:
-    image: postgres:13
+    image: postgres:13  
     environment:
-      POSTGRES_DB: dvna-tp2
       POSTGRES_USER: ayahfarhat
       POSTGRES_PASSWORD: Postgres1
+      POSTGRES_DB: mydb
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: always
 
 volumes:
-  postgres_data:
+  pgdata:
