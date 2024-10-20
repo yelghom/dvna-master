@@ -19,7 +19,7 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Deploy to Azure Container Apps
-        uses: azure/container-apps-deploy@v1
+        azure/container-apps-deploy-action@v2
         with:
           name: dvna-tp2-container
           resource-group: tp2
