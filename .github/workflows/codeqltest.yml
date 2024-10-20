@@ -9,7 +9,7 @@
 # the `language` matrix defined below to confirm you have the correct set of
 # supported CodeQL languages.
 #
-name: "Security Tests"
+name: "Security Analysis Tests"
 
 on:
   push:
@@ -50,7 +50,7 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          sonar-scanner -X -Dsonar.projectKey=yelghom_dvna-master -Dsonar.sources=. -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }} -Dsonar.organization=yelghom
+          sonar-scanner -X -Dsonar.projectKey=yelghom_dvna-master -Dsonar.sources=. -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }} -Dsonar.organization=yelghom -Dsonar.analysisMode=full
 
       - name: Clean up
         run: |
@@ -187,6 +187,7 @@ jobs:
           npm install snyk-to-html -g
           snyk test --json | snyk-to-html -o result.html
           mkdir downloads
+          mv result.html downloads/
           # cp -v /home/runner/work/java-goof/java-goof/*.html /home/runner/work/java-goof/java-goof/downloads
 
       - name: Use the Upload Artifact GitHub Action
