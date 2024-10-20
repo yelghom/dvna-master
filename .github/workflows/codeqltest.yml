@@ -191,9 +191,9 @@ jobs:
       - name: Check for HTML files
         run: |
           echo "Checking for HTML files:"
-          if ls /home/runner/work/*.html 1> /dev/null 2>&1; then
+          if ls /home/runner/work/dvna-master/dvna-master*.html 1> /dev/null 2>&1; then
             echo "HTML files found:"
-            ls /home/runner/work/*.html
+            ls /home/runner/work/dvna-master/dvna-master*.html
           else
             echo "No HTML files found in the directory."
             exit 1
