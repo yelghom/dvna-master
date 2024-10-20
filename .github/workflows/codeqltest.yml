@@ -187,6 +187,7 @@ jobs:
           npm install snyk-to-html -g
           snyk test --json | snyk-to-html -o result.html
           mkdir downloads
+          mv result.html downloads/
           # cp -v /home/runner/work/java-goof/java-goof/*.html /home/runner/work/java-goof/java-goof/downloads
 
       - name: Use the Upload Artifact GitHub Action
