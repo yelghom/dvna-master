@@ -7,7 +7,9 @@ var env = process.env.NODE_ENV || "development";
 var config = require("../config/db.js")
 
 if (process.env.DATABASE_URL) {
-  var sequelize = new Sequelize("dburl");
+  var sequelize = new Sequelize(process.env.DATABASE_URL, {
+    dialect: "postgres",
+  });
 } else {
   var sequelize = new Sequelize(
     process.env.DB_NAME,
