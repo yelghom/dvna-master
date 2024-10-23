@@ -1,16 +1,16 @@
-# Random Web APP
+# DVNA App Equipe 13
 
 ### Using Official Docker Image
 
-TODO HERE
+[Docker Image](https://hub.docker.com/repository/docker/yelghom/dvna/general)
 
 ### Manual Setup
 
 Clone the repository
 
 ```bash
-git clone https://github.com/appsecco/dvna
-cd dvna
+git clone [https://github.com/yelghom/dvna-master.git](https://github.com/yelghom/dvna-master.git)
+cd dvna-master
 ```
 
 Install Dependencies
