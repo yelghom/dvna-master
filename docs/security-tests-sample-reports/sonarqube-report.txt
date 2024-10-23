@@ -1,0 +1,7 @@
+organization=yelghom
+projectKey=yelghom_dvna-master
+serverUrl=https://sonarcloud.io
+serverVersion=8.0.0.57101
+dashboardUrl=https://sonarcloud.io/dashboard?id=yelghom_dvna-master&branch=main
+ceTaskId=AZK52XXyaeZ21xwkv5ke
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AZK52XXyaeZ21xwkv5ke
