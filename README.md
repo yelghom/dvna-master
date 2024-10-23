@@ -9,7 +9,7 @@
 Clone the repository
 
 ```bash
-git clone [https://github.com/yelghom/dvna-master.git](https://github.com/yelghom/dvna-master.git)
+git clone https://github.com/yelghom/dvna-master.git
 cd dvna-master
 ```
 
