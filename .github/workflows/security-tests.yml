@@ -41,7 +41,10 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           sonar-scanner -X -Dsonar.projectKey=yelghom_dvna-master -Dsonar.sources=. -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }} -Dsonar.organization=yelghom
-
+     
+      - name: List .scannerwork Directory
+        run: ls -R .scannerwork
+     
       - name: Upload SonarQube XML Report as Artifact
         uses: actions/upload-artifact@v3
         with:
