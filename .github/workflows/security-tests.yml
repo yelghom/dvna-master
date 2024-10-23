@@ -79,23 +79,12 @@ jobs:
         uses: github/codeql-action/analyze@v3
         with:
           output: results.sarif
-      - name: Install sarif-tools
-        run: npm install -g sarif-tools
-
-      - name: Convert SARIF to HTML
-        run: sarif-to-html -i results.sarif -o codeql-results.html
   
       - name: Upload SARIF file as an artifact
         uses: actions/upload-artifact@v3
         with:
           name: codeql-results
           path: results.sarif
-  
-      - name: Upload HTML report as an artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: codeql-report-html
-          path: codeql-results.html
 
   snyk:
     name: Snyk Test
