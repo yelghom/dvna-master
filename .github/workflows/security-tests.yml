@@ -46,8 +46,8 @@ jobs:
         run: |
           rm -rf sonar-scanner
   codeql:
-    name: Run CodeQl (${{ matrix.language }})
-    runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
+    name: Run CodeQl 
+    runs-on: ubuntu-latest
     permissions:
       # required for all workflows
       security-events: write
@@ -75,38 +75,31 @@ jobs:
           languages: ${{ matrix.language }}
           build-mode: ${{ matrix.build-mode }}
 
-      # - if: matrix.build-mode == 'manual'
-      #   shell: bash
-      #   run: |
-      #     echo 'If you are using a "manual" build mode for one or more of the' \
-      #       'languages you are analyzing, replace this with the commands to build' \
-      #       'your code, for example:'
-      #     echo '  make bootstrap'
-      #     echo '  make release'
-      #     exit 1
-
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
         with:
-          category: "/language:${{matrix.language}}"
           output: results.sarif
+      - name: Install sarif-tools
+        run: npm install -g sarif-tools
 
+      - name: Convert SARIF to HTML
+        run: sarif-to-html -i results.sarif -o codeql-results.html
+  
       - name: Upload SARIF file as an artifact
         uses: actions/upload-artifact@v3
         with:
           name: codeql-results
           path: results.sarif
-
-      - name: Upload CodeQL analysis as an artifact
+  
+      - name: Upload HTML report as an artifact
         uses: actions/upload-artifact@v3
         with:
-          name: codeql-db
-          path: /home/runner/work/_temp/codeql_databases/javascript.zip
+          name: codeql-report-html
+          path: codeql-results.html
 
   snyk:
-    name: Analyze (${{ matrix.language }})
-    # Consider using larger runners or machines with greater resources for possible analysis time improvements.
-    runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
+    name: Snyk Test
+    runs-on: ubuntu-latest
     permissions:
       # required for all workflows
       security-events: write
