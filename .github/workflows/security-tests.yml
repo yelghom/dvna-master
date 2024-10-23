@@ -14,6 +14,12 @@ jobs:
     name: SonarQube Scan
     runs-on: ubuntu-latest
 
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - language: javascript-typescript
+            build-mode: none
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -52,7 +58,7 @@ jobs:
         run: |
           rm -rf sonar-scanner
   codeql:
-    name: Run CodeQl 
+    name: CodeQl Scan
     runs-on: ubuntu-latest
     permissions:
       # required for all workflows
@@ -93,7 +99,7 @@ jobs:
           path: results.sarif
 
   snyk:
-    name: Snyk Test
+    name: Snyk Scan
     runs-on: ubuntu-latest
     permissions:
       # required for all workflows
@@ -132,7 +138,7 @@ jobs:
       - name: Use the Upload Artifact GitHub Action
         uses: actions/upload-artifact@v4
         with:
-          name: results
+          name: snyk-results
           path: downloads
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
