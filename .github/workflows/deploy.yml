@@ -1,6 +1,10 @@
-name: CD Pipeline
+name: "CD Pipeline"
 
 on:
+  workflow_run:
+    workflows: ["Docker Build and Publish"] 
+    types:
+      - completed
   push:
     branches:
       - main
